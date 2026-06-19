@@ -1,0 +1,101 @@
+"<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Page</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .endpoint { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .method { font-weight: bold; color: #fff; padding: 3px 8px; border-radius: 3px; }
+        .get { background: #28a745; }
+        .post { background: #007bff; }
+        input, textarea { width: 100%; padding: 8px; margin: 5px 0; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        .response { background: #e9ecef; padding: 10px; margin-top: 10px; border-radius: 5px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <h1>Developer Portfolio API - Test Page</h1>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <strong>/api/health</strong> - Health Check
+        <button onclick="testHealth()">Test</button>
+        <div id="health-response" class="response"></div>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <strong>/api/status</strong> - API Status
+        <button onclick="testStatus()">Test</button>
+        <div id="status-response" class="response"></div>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <strong>/api/metrics</strong> - Metrics
+        <button onclick="testMetrics()">Test</button>
+        <div id="metrics-response" class="response"></div>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method post">POST</span> <strong>/api/contact</strong> - Submit Contact Form
+        <input type="text" id="name" placeholder="Name" value="Test User">
+        <input type="email" id="email" placeholder="Email" value="test@example.com">
+        <input type="text" id="phone" placeholder="Phone (optional)" value="+79991234567">
+        <textarea id="comment" placeholder="Your message" rows="4">Hello, I want to discuss a project</textarea>
+        <button onclick="testContact()">Submit</button>
+        <div id="contact-response" class="response"></div>
+    </div>
+    
+    <div class="endpoint">
+        <span class="method get">GET</span> <strong>/api/contacts</strong> - Get All Contacts
+        <button onclick="testContacts()">Test</button>
+        <div id="contacts-response" class="response"></div>
+    </div>
+    
+    <script>
+        const BASE_URL = 'http://localhost:8000';
+        
+        async function testHealth() {
+            const response = await fetch(`${BASE_URL}/api/health`);
+            const data = await response.json();
+            document.getElementById('health-response').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        async function testStatus() {
+            const response = await fetch(`${BASE_URL}/api/status`);
+            const data = await response.json();
+            document.getElementById('status-response').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        async function testMetrics() {
+            const response = await fetch(`${BASE_URL}/api/metrics`);
+            const data = await response.json();
+            document.getElementById('metrics-response').textContent = JSON.stringify(data, null, 2);
+        }
+        
+        async function testContact() {
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                comment: document.getElementById('comment').value
+            };
+            
+            const response = await fetch(`${BASE_URL}/api/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            document.getElementById('contact-response').textContent = JSON.stringify(result, null, 2);
+        }
+        
+        async function testContacts() {
+            const response = await fetch(`${BASE_URL}/api/contacts`);
+            const data = await response.json();
+            document.getElementById('contacts-response').textContent = JSON.stringify(data, null, 2);
+        }
+    </script>
+</body>
+</html>"

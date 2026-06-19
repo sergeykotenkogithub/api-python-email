@@ -1,0 +1,46 @@
+# Web Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# Data Validation
+pydantic[email]==2.5.0
+pydantic-settings==2.1.0
+
+# AI Integration
+openai>=1.0.0
+groq>=0.11.0
+langchain>=0.0.300
+
+# Email
+aiosmtplib>=3.0.0
+email-validator>=2.1.0
+
+# Async File Operations
+aiofiles>=23.2.0
+
+# Environment Variables
+python-dotenv>=1.0.0
+
+# Logging
+loguru>=0.7.0
+
+# CORS
+python-multipart>=0.0.6
+
+# Testing
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+httpx>=0.25.0
+
+# Code Quality
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.0.0
+
+# Development
+watchdog>=3.0.0
+
+# Fix for Python 3.14 compatibility
+numpy>=1.26.0,<2.0.0
+setuptools>=68.0.0
+
