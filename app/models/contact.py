@@ -51,12 +51,23 @@ class ContactForm(BaseModel):
     
     @validator('phone')
     def validate_phone(cls, v):
-        """Validate phone number format."""
+        """Validate phone number - + at start, then digits only."""
         if v is None:
             return v
+        # Check for letters - not allowed
+        if re.search(r'[a-zA-Zа-яА-ЯёЁ]', v):
+            raise ValueError('Phone number must contain only digits and optional + at the start')
         # Remove all non-digit characters except +
         cleaned = re.sub(r'[^\d+]', '', v)
-        if len(cleaned) < 10 or len(cleaned) > 15:
+        # + must be at the start only
+        if '+' in cleaned:
+            if cleaned.index('+') != 0:
+                raise ValueError('Plus sign must be at the beginning')
+            if cleaned.count('+') > 1:
+                raise ValueError('Only one plus sign allowed')
+        # Check length (10-15 digits, + doesn't count)
+        digits_only = re.sub(r'[^\d]', '', cleaned)
+        if len(digits_only) < 10 or len(digits_only) > 15:
             raise ValueError('Phone number must be between 10 and 15 digits')
         return cleaned
     
