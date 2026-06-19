@@ -7,8 +7,10 @@ This module creates and configures the FastAPI application.
 import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from contextlib import asynccontextmanager
+
+from fastapi.staticfiles import StaticFiles
 from app.config import settings
 from app.api.routes import contact, health
 from app.middleware.error_handler import (
@@ -123,6 +125,14 @@ def create_app() -> FastAPI:
     
     # Root endpoint
     @app.get("/", tags=["Root"])
+
+    @app.mount("/static", StaticFiles(directory="static"), name="static")
+
+    @app.get("/static")
+    async def root():
+    # Просто возвращаем HTML файл
+        return FileResponse("static/test_api.html")
+    
     async def root():
         """Root endpoint.
         
