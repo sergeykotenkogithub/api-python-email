@@ -126,7 +126,7 @@ def create_app() -> FastAPI:
     # Root endpoint
     @app.get("/", tags=["Root"])
 
-    @app.mount("/static", StaticFiles(directory="static"), name="static")
+    # @app.mount("/static", StaticFiles(directory="static"), name="static")
 
     @app.get("/static")
     async def root():
