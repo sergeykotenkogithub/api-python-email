@@ -54,7 +54,7 @@ uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 
 6. **Проверьте работу:**
 - API будет доступен по адресу: http://localhost:8000
-- Swagger документация: http://localhost:8000/docs
+- Документация: http://localhost:8000/static
 - ReDoc документация: http://localhost:8000/redoc
 
 ### Переменные окружения
@@ -487,7 +487,7 @@ python generate_docs.py
 ## 📞 Поддержка
 
 Если у вас возникли вопросы или проблемы:
-1. Проверьте документацию API: `/docs`
+1. Проверьте документацию API: `/static`
 2. Изучите логи: `./logs/`
 3. Создайте issue в репозитории
 

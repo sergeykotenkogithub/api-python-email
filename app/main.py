@@ -142,7 +142,7 @@ def create_app() -> FastAPI:
         return {
             "message": f"Welcome to {settings.APP_NAME}",
             "version": settings.APP_VERSION,
-            "docs": "/docs",
+            "docs": "/static",
             "health": "/api/health"
         }
     

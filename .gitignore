@@ -11,6 +11,7 @@ ENV/
 dist/
 build/
 *.egg
+test_for_project/
 
 # Environment variables
 .env
