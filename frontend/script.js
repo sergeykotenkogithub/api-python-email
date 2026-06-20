@@ -2,8 +2,9 @@
    Developer Portfolio - Main Script
    ======================================== */
 
-// API Configuration
-const API_BASE_URL = 'https://api-python-email.onrender.com';
+// API Configuration - Use current origin for API
+// https://api-python-email.onrender.com
+const API_BASE_URL = window.location.origin;
 
 // DOM Elements
 const contactForm = document.getElementById('contactForm');
