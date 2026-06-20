@@ -40,9 +40,8 @@ def create_app() -> FastAPI:
         title=settings.APP_NAME,
         version=settings.APP_VERSION,
         description="Developer Portfolio API",
-        docs_url="/docs",
-        redoc_url="/redoc",
-        openapi_url="/openapi.json",
+        docs_url=None,
+        redoc_url=None,
         lifespan=lifespan
     )
     
@@ -75,16 +74,34 @@ def create_app() -> FastAPI:
     # API Routes
     app.include_router(contact.router)
     app.include_router(health.router)
-    
+
+    # Custom docs endpoint
+    @app.get("/docs", include_in_schema=False)
+    async def custom_docs():
+        return FileResponse("static/test_api.html")
+
     # Static files - /static/
     static_dir = Path("static")
     if static_dir.exists():
         app.mount("/static", StaticFiles(directory="static"), name="static")
 
-    # Frontend - / (must be last)
+    # Frontend static files - /assets/
     frontend_dir = Path("frontend")
     if frontend_dir.exists():
-        app.mount("/", StaticFiles(directory="frontend", html=True), name="frontend")
+        app.mount("/assets", StaticFiles(directory="frontend"), name="assets")
+    # Frontend - serve index.html for root (must be last)
+    @app.get("/", include_in_schema=False)
+    async def serve_frontend():
+        return FileResponse("frontend/index.html")
+
+    # Catch-all for frontend routes (SPA support)
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def catch_all(full_path: str):
+        # Don't catch API routes
+        if full_path.startswith("api/") or full_path.startswith("static/"):
+            return JSONResponse({"error": "Not found"}, status_code=404)
+        return FileResponse("frontend/index.html")
+
     return app
 
 
